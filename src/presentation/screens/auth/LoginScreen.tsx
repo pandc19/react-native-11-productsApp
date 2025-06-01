@@ -28,7 +28,9 @@ export const LoginScreen = ({navigation}: Props) => {
     const wasSuccesful = await login(form.email, form.password);
     setIsPosting(false);
 
-    if (wasSuccesful) return;
+    if (wasSuccesful) {
+      return;
+    }
 
     Alert.alert('Error', ' Usuario o contraseña incorrectos');
   };
