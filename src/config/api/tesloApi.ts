@@ -1,6 +1,7 @@
 import {STAGE, API_URL as PROD_URL, API_URL_IOS, API_URL_ANDROID} from '@env';
 import axios from 'axios';
 import {Platform} from 'react-native';
+import {StorageApdater} from '../adapters/async-storage';
 
 export const API_URL =
   STAGE === 'prod'
@@ -17,5 +18,12 @@ const tesloApi = axios.create({
 });
 
 // TODO: Interceptors
+tesloApi.interceptors.request.use(async config => {
+  const token = await StorageApdater.getITem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export {tesloApi};
