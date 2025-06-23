@@ -23,9 +23,9 @@ export enum Size {
   L = 'L',
   M = 'M',
   S = 'S',
-  XL = 'XL',
-  XXL = 'XXL',
-  XXXL = 'XXXL',
+  Xl = 'XL',
+  Xxl = 'XXL',
+  Xxxl = 'XXXL',
 }
 
 export interface TesloUser {
