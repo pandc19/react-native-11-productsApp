@@ -1,4 +1,4 @@
-import {Layout, List, Text} from '@ui-kitten/components';
+import {Layout, List} from '@ui-kitten/components';
 import {Product} from '../../../domain/entities/product';
 import {ProductCard} from './ProductCard';
 
