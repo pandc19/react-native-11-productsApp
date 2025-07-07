@@ -15,11 +15,7 @@ export const HomeScreen = () => {
     queryKey: ['products', 'infinite'],
     staleTime: 1000 * 60 * 60,
     initialPageParam: 0,
-    queryFn: async params => {
-      console.log({params});
-      const products = await getProductsByPage(params.pageParam);
-      return products;
-    },
+    queryFn: async params => await getProductsByPage(params.pageParam),
     getNextPageParam: (lastPage, allPages) => allPages.length,
   });
 
