@@ -7,17 +7,18 @@ import {
   Text,
   useTheme,
 } from '@ui-kitten/components';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery} from '@tanstack/react-query';
 import {RootStackParams} from '../../navigation/StackNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {getProductById} from '../../../actions/products/get-product-by-id';
 import {useRef} from 'react';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {FadeInImage} from '../../components/ui/FadeInImage';
-import {Size} from '../../../domain/entities/product';
+import {Product, Size} from '../../../domain/entities/product';
 import {Gender} from '../../../infrastructure/interfaces/teslo-products.response';
 import {MyIcon} from '../../components/ui/MyIcon';
 import {Formik} from 'formik';
+import {updateCreateProduct} from '../../../actions/products/update-create-product';
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M, Size.L, Size.Xl, Size.Xxl];
 const gender: Gender[] = [Gender.Kid, Gender.Men, Gender.Women, Gender.Unisex];
@@ -33,14 +34,21 @@ export const ProductScreen = ({route}: Props) => {
     queryFn: () => getProductById(productIdRef.current),
   });
 
+  const mutation = useMutation({
+    mutationFn: (data: Product) =>
+      updateCreateProduct({...data, id: productIdRef.current}),
+    onSuccess: (data: Product) => {
+      console.log('Success');
+      console.log({data});
+    },
+  });
+
   if (!product) {
     return <MainLayout title="Cargando..." />;
   }
 
   return (
-    <Formik
-      initialValues={product}
-      onSubmit={values => console.log('Guardar', values)}>
+    <Formik initialValues={product} onSubmit={mutation.mutate}>
       {({handleChange, handleSubmit, values, errors, setFieldValue}) => (
         <MainLayout title={values.title} subtitle={`Precio: ${values.price}`}>
           <ScrollView style={{flex: 1}}>
@@ -96,12 +104,16 @@ export const ProductScreen = ({route}: Props) => {
               <Input
                 label="Precio"
                 value={values.price.toString()}
+                onChangeText={handleChange('price')}
                 style={{flex: 1}}
+                keyboardType="numeric"
               />
               <Input
                 label="Inventario"
                 value={values.stock.toString()}
+                onChangeText={handleChange('stock')}
                 style={{flex: 1}}
+                keyboardType="numeric"
               />
             </Layout>
 
@@ -162,7 +174,8 @@ export const ProductScreen = ({route}: Props) => {
             {/* Botón de guardar */}
             <Button
               accessoryLeft={<MyIcon name="save" white />}
-              onPress={() => console.log('Guardar')}
+              onPress={() => handleSubmit()}
+              disabled={mutation.isPending}
               style={{margin: 15}}>
               Guardar
             </Button>
