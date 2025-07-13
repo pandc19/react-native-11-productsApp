@@ -22,7 +22,7 @@ export enum Size {
   L = 'L',
   M = 'M',
   S = 'S',
-  XL = 'XL',
-  XXL = 'XXL',
-  XXXL = 'XXXL',
+  Xs = 'XS',
+  Xl = 'XL',
+  Xxl = 'XXL',
 }

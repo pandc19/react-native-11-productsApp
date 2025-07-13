@@ -15,7 +15,7 @@ interface Props {
   rightAction?: () => void;
   righActionIcon?: string;
 
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const MainLayout = ({
