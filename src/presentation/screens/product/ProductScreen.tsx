@@ -19,6 +19,7 @@ import {Gender} from '../../../infrastructure/interfaces/teslo-products.response
 import {MyIcon} from '../../components/ui/MyIcon';
 import {Formik} from 'formik';
 import {updateCreateProduct} from '../../../actions/products/update-create-product';
+import {Image} from 'react-native';
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M, Size.L, Size.Xl, Size.Xxl];
 const gender: Gender[] = [Gender.Kid, Gender.Men, Gender.Women, Gender.Unisex];
@@ -57,20 +58,31 @@ export const ProductScreen = ({route}: Props) => {
         <MainLayout title={values.title} subtitle={`Precio: ${values.price}`}>
           <ScrollView style={{flex: 1}}>
             {/* Imágenes de el producto */}
-            <Layout>
-              {/* TODO: tener en consideraicón cuando no hay imágenes */}
-              <FlatList
-                data={values.images}
-                keyExtractor={item => item}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => (
-                  <FadeInImage
-                    uri={item}
-                    style={{width: 300, height: 300, marginHorizontal: 7}}
-                  />
-                )}
-              />
+            <Layout
+              style={{
+                marginVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {values.images.length === 0 ? (
+                <Image
+                  source={require('../../../assets/no-product-image.png')}
+                  style={{width: 300, height: 300}}
+                />
+              ) : (
+                <FlatList
+                  data={values.images}
+                  keyExtractor={item => item}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item}) => (
+                    <FadeInImage
+                      uri={item}
+                      style={{width: 300, height: 300, marginHorizontal: 7}}
+                    />
+                  )}
+                />
+              )}
             </Layout>
 
             {/* Formulario */}
