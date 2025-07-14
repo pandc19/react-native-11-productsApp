@@ -59,7 +59,7 @@ export const ProductScreen = ({route}: Props) => {
             const photos = await CameraAdapter.getPicturesFromLibrary();
             setFieldValue('images', [...values.images, ...photos]);
           }}
-          righActionIcon="camera">
+          righActionIcon="image">
           <ScrollView style={{flex: 1}}>
             {/* Imágenes de el producto */}
             <Layout
